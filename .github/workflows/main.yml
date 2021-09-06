@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: DeFog-Benchmarks
+name: AIoT-Benchmarks
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -8,12 +8,8 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'framework/workload/DockerImages/yolo/Dockerfile'
-      - 'framework/workload/DockerImages/yolo/*.sh'
-      - 'framework/workload/DockerImages/Pocketsphinx/Dockerfile'
-      - 'framework/workload/DockerImages/Pocketsphinx/*.sh'
-      - 'framework/workload/DockerImages/Aeneas/Dockerfile'
-      - 'framework/workload/DockerImages/Aeneas/*.sh'
+      - 'framework/workload/DockerImages/aiotbench/Dockerfile'
+      - 'framework/workload/DockerImages/aiotbench/*.py'
       - '.github/workflows/*.yml'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -30,15 +26,7 @@ jobs:
         - name: Get the version
           id: vars
           run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
-        - name: Build the Yolo image
-          run: docker build -t shreshthtuli/yolo framework/workload/DockerImages/yolo/
-        - name: Push the yolo image
-          run: docker push shreshthtuli/yolo
-        - name: Build the PocketSphinx image
-          run: docker build -t shreshthtuli/pocketsphinx framework/workload/DockerImages/PocketSphinx/
-        - name: Push the PocketSphinx image
-          run: docker push shreshthtuli/pocketsphinx
-        - name: Build the Aeneas image
-          run: docker build -t shreshthtuli/aeneas framework/workload/DockerImages/Aeneas/
-        - name: Push the Aeneas image
-          run: docker push shreshthtuli/aeneas
+        - name: Build the AIoTBench image
+          run: docker build -t shreshthtuli/yolo framework/workload/DockerImages/aiotbench/
+        - name: Push the AIoTBench image
+          run: docker push shreshthtuli/aiotbench
