@@ -17,6 +17,7 @@ from framework.database.Database import *
 from framework.datacenter.Datacenter_Setup import *
 from framework.datacenter.Datacenter import *
 from framework.workload.DeFogWorkload import *
+from framework.workload.AIoTBenchWorkload import *
 
 # Simulator imports
 from simulator.Simulator import *
