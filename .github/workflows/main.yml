@@ -4,8 +4,8 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'framework/workload/DockerImages/aiotbench/Dockerfile'
-      - 'framework/workload/DockerImages/aiotbench/*.py'
+      - 'framework/workload/DockerImages/AIoTBench/Dockerfile'
+      - 'framework/workload/DockerImages/AIoTBench/*.py'
       - '.github/workflows/*.yml'
 
 jobs:
@@ -20,6 +20,6 @@ jobs:
           id: vars
           run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
         - name: Build the AIoTBench image
-          run: docker build -t shreshthtuli/yolo framework/workload/DockerImages/aiotbench/
+          run: docker build -t shreshthtuli/aiotbench framework/workload/DockerImages/AIoTBench/
         - name: Push the AIoTBench image
           run: docker push shreshthtuli/aiotbench
