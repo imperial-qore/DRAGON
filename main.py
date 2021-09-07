@@ -53,7 +53,7 @@ from scheduler.HSOGOBI2 import HSOGOBI2Scheduler
 
 # Recovery imports
 from recovery.Recovery import Recovery
-from recovery.DeepFT import DeepFTRecovery
+from recovery.DRAGON import DRAGONRecovery
 from recovery.TopoMAD import TopoMADRecovery
 from recovery.PCFT import PCFTRecovery
 from recovery.AWGG import AWGGRecovery
@@ -116,7 +116,7 @@ def initalizeEnvironment(environment, logger):
 	
 	# Initialize recovery
 	''' Can be Recovery, DeepFTRecovery, PCFTRecovery, TopoMADRecovery, DFTMRecovery, ECLBRecovery, AWGGRecovery '''
-	recovery = DeepFTRecovery(HOSTS, environment)
+	recovery = DRAGONRecovery(HOSTS, environment)
 
 	# Initialize Environment
 	hostlist = datacenter.generateHosts()

@@ -18,13 +18,17 @@ as an anomaly in the cluster. For any anomaly in a cluster, the master co-simula
 container(s) to another cluster (pulling the resource predictions from other nodes updated periodically).
 
 
-Thus, every cluster proposes a set of migrations, these are compiled together and then we perform a single-step co-simulated fictitious play. 
+Thus, every cluster proposes a set of migrations, these are compiled together and then we perform a single-step co-simulated fictitious play. Like x to y to z is changed to x to z.
 Co-simulation gives resource characteristics after the migrations, and particularly = QoS + Sum(anomalies) - Migration overhead.
 If any migration reduces this score (not possible in single node clusters), it is not performed and load-balancing (some existing) is performed within the cluster. 
 Again anomaly detection takes place and we find migration decision again. 
 These are added to the previous one and we again perform a single step simulation from original timestep, should not give anomalies now as the required migrations have been added.
 Would not give cycles: (proof) x to y to z to x would never usually happen. If x to y caused anomaly in y and z led to anomalies, it would become x to x. The final QoS is lower than
 the QoS of no migration. So even if such a thing happens, we ignore cycles in the final decision.
+
+## Surrogate Model
+
+Takes scheduling decision and time-series input and creates a reconstruction. 
 
 ## License
 
