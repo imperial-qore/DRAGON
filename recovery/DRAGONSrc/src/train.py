@@ -30,7 +30,7 @@ def backprop(epoch, model, optimizer, train_time_data, train_schedule_data, stat
 # Accuracy 
 def anomaly_accuracy(pred_state, target_anomaly, thresholds, model_plotter):
 	correct = 0; res_list = []; tp, fp, tn, fn = 0, 0, 0, 0
-	anomaly_any_dim, _ = check_anomalies(pred_state.view(1, -1).detach().clone().numpy(), thresholds)
+	anomaly_any_dim, _ = check_anomalies(pred_state.view(1, -1).detach().clone().numpy(), thresholds, model_plotter.env)
 	anomaly_any_dim = anomaly_any_dim[0] + 0
 	for i, res in enumerate(anomaly_any_dim):
 		res_list.append(res)
@@ -55,7 +55,7 @@ def accuracy(model, train_time_data, train_schedule_data, anomaly_data, class_da
 		# pred_state = model(train_time_data[i], train_schedule_data[i])
 		model_plotter.update_lines(pred_state.view(-1), train_time_data[i][-1])
 		res, tp, tn, fp, fn = anomaly_accuracy(pred_state, anomaly_data[i], thresholds, model_plotter)
-		anomaly_correct += res
+		anomaly_correct += min(1, res)
 		tpl.append(tp); tnl.append(tn); fpl.append(fp); fnl.append(fn)
 	tp, fp, tn, fn = np.mean(tpl), np.mean(fpl), np.mean(tnl), np.mean(fnl)
 	p, r = tp/(tp+fp), tp/(tp+fn)

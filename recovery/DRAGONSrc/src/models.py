@@ -8,7 +8,7 @@ class DRAGON_simulator_16(nn.Module):
 	def __init__(self):
 		super(DRAGON_simulator_16, self).__init__()
 		self.name = 'DRAGON_simulator_16'
-		self.lr = 0.0008
+		self.lr = 0.0002
 		self.n_hosts = 16
 		self.n_feats = 3 * self.n_hosts
 		self.n_window = 1 # w_size = 3
@@ -30,7 +30,7 @@ class DRAGON_framework_16(nn.Module):
 	def __init__(self):
 		super(DRAGON_framework_16, self).__init__()
 		self.name = 'DRAGON_framework_16'
-		self.lr = 0.0008
+		self.lr = 0.0002
 		self.n_hosts = 16
 		self.n_feats = 3 * self.n_hosts
 		self.n_window = 1 # w_size = 3

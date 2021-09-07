@@ -13,12 +13,13 @@ def convert_to_windows(data, model):
 		windows.append(w)
 	return torch.stack(windows)
 
-def check_anomalies(data, thresholds):
+def check_anomalies(data, thresholds, env='s'):
 	anomaly_per_dim = data > thresholds
+	checkdim = 2 if 'f' in env else 3
 	anomaly_which_dim, anomaly_any_dim = [], []
 	for i in range(0, data.shape[1], 3):
 		anomaly_which_dim.append(np.argmax(data[:, i:i+3] + 0, axis=1))
-		anomaly_any_dim.append(np.logical_or.reduce(anomaly_per_dim[:, i:i+3], axis=1))
+		anomaly_any_dim.append(np.logical_or.reduce(anomaly_per_dim[:, i:i+checkdim], axis=1))
 	anomaly_any_dim = np.stack(anomaly_any_dim, axis=1)
 	anomaly_which_dim = np.stack(anomaly_which_dim, axis=1)
 	return anomaly_any_dim, anomaly_which_dim

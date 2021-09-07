@@ -24,7 +24,7 @@ class Model_Plotter():
 		self.env = env
 		self.model_name = modelname
 		self.n_hosts = int(modelname.split('_')[-1])
-		self.folder = os.path.join(plot_folder, env, 'model')
+		self.folder = os.path.join(plot_folder, env)
 		self.prefix = self.folder + '/' + self.model_name
 		self.epoch = 0
 		os.makedirs(self.folder, exist_ok=True)
@@ -62,7 +62,7 @@ class Model_Plotter():
 		self.plot2('Loss', 'F1', self.aloss_list, self.f1s)
 		self.plot1('Anomaly Prediction Score', self.anomaly_score_list)
 		self.plot1('Correct Anomaly', self.correct_series, xlabel='Timestamp')
-		self.plotLine('Time Series', 'Pred Line', 'True Line', self.pred_line[0], self.true_line[0])
+		self.plotLine('Time Series', 'Pred Line', 'True Line', self.pred_line, self.true_line)
 		self.source_anomaly_scores = np.array(self.source_anomaly_scores)
 		self.target_anomaly_scores = np.array(self.target_anomaly_scores)
 		self.plot_heatmap('Anomaly Scores', 'Prediction', 'Ground Truth', self.source_anomaly_scores, self.target_anomaly_scores)
@@ -91,10 +91,11 @@ class Model_Plotter():
 		plt.close()
 
 	def plotLine(self, title, name1, name2, data1, data2, smooth = True, xlabel='Timestamp'):
-		fig, ax = plt.subplots(1, 1, figsize=(3,1.9))
-		ax.set_ylabel(title); ax.set_xlabel(xlabel)
-		l1 = ax.plot(data1, linewidth=0.6, label=name1, c = 'red')
-		l2 = ax.plot(data2.reshape(-1), '--', linewidth=0.6, alpha=0.8, label=name2)
+		fig, axs = plt.subplots(data1.shape[0], 1, figsize=(3,12.9))
+		axs[0].set_ylabel(title); axs[0].set_xlabel(xlabel)
+		for i, ax in enumerate(axs):
+			l1 = ax.plot(data1[i], linewidth=0.6, label=name1, c = 'red')
+			l2 = ax.plot(data2[i].reshape(-1), '--', linewidth=0.6, alpha=0.8, label=name2)
 		plt.legend(handles=l1+l2, loc=9, bbox_to_anchor=(0.5, 1.2), ncol=2, prop={'size': 7})
 		fig.savefig(self.prefix2 + f'{name1}_{name2}.pdf', pad_inches=0)
 		plt.close()

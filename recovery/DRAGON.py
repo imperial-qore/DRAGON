@@ -39,7 +39,7 @@ class DRAGONRecovery(Recovery):
             tqdm.write(f'Epoch {self.epoch},\tAScore = {anomaly_score}')
             self.accuracy_list.append((aloss, anomaly_score, f1))
             self.model_plotter.plot(self.accuracy_list, self.epoch)
-            # save_model(model_folder, f'{self.model_name}.ckpt', self.model, self.optimizer, self.epoch, self.accuracy_list)
+            save_model(model_folder, f'{self.model_name}.ckpt', self.model, self.optimizer, self.epoch, self.accuracy_list)
 
     def optimize_decision(self, state, original_decision):
         init = torch.tensor(deepcopy(original_decision), dtype=torch.double, requires_grad=True)
