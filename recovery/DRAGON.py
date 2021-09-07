@@ -41,22 +41,44 @@ class DRAGONRecovery(Recovery):
             self.model_plotter.plot(self.accuracy_list, self.epoch)
             save_model(model_folder, f'{self.model_name}.ckpt', self.model, self.optimizer, self.epoch, self.accuracy_list)
 
-    def optimize_decision(self, state, original_decision):
-        init = torch.tensor(deepcopy(original_decision), dtype=torch.double, requires_grad=True)
-        optimizer = torch.optim.AdamW([init] , lr=0.8)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=10)
-        iteration = 0; equal = 0; z_old = 100; zs = []
-        while iteration < 200:
-            cpu_old = deepcopy(init.data[:,0:-self.hosts]); alloc_old = deepcopy(init.data[:,-self.hosts:])
-            pred_state, prototypes = self.model(state, init)
-            z, end = optimization_loss(pred_state.view(-1), prototypes, self.thresholds)
-            optimizer.zero_grad(); z.backward(create_graph=True); optimizer.step(); scheduler.step()
-            init.data = convertToOneHot(init.data, cpu_old, self.hosts)
-            equal = equal + 1 if torch.all(alloc_old.eq(init.data[:,-self.hosts:])) else 0
-            if equal > 30 or end: break
-            iteration += 1; z_old = z.item()
-        init.requires_grad = False 
-        return init.data
+    def getObjective(self, cid, hostID):
+        energy = self.env.stats.runSimpleSimulation([(cid, hostID)])
+        return energy
+
+    def optimize_decision(self, state, schedule):
+        bcel = nn.BCELoss(reduction = 'mean')
+        real_label = torch.tensor([0.9]).type(torch.DoubleTensor)
+        result, oldResult = {}, {} 
+        bestScore, oldScore = 1000, 10000
+        while bestScore < oldScore:
+            oldScore, oldResult = bestScore, result
+            # update schedule based on recovery migrations
+            for cid in result:
+                orig_host = torch.argmax(schedule[cid])
+                schedule[cid][orig_host] = 0
+                schedule[cid][result[cid]] = 1
+            # get anomalies
+            pred_state = gen(self.model, state, schedule, real_label, bcel, 1e-3)
+            pred_state = pred_state.view(1, -1).detach().clone().numpy()
+            anomaly_any_dim, _ = check_anomalies(pred_state, self.thresholds, self.env_name)
+            hostlist = np.where(anomaly_any_dim[0])[0].tolist()
+            # select MMT containers
+            selectedContainerIDs = []
+            for hostID in hostlist:
+                containerIDs = self.env.getContainersOfHost(hostID)
+                if containerIDs:
+                    containerIPS = [self.env.containerlist[cid].getRAM()[0] for cid in containerIDs]
+                    selectedContainerIDs.append(containerIDs[np.argmin(containerIPS)])
+            scorecount = 0
+            # select target hosts based on co-simulated ficitious play
+            for cid in containerIDs:
+                scores = [self.getObjective(cid, hostID) for hostID, _ in enumerate(self.env.hostlist)]
+                result[cid] = np.argmin(scores)
+                scorecount += np.min(scores)
+            scorecount = scorecount / (len(containerIDs) + 1e-4)
+            migration_overhead = len(containerIDs) / (self.env.getNumActiveContainers() + 1e-4)
+            bestScore = scorecount + migration_overhead
+        return result
 
     def get_data(self):
         schedule_data = torch.tensor(self.env.scheduler.result_cache).double()
@@ -75,9 +97,8 @@ class DRAGONRecovery(Recovery):
             oneHot = [0] * len(self.env.hostlist)
             if c: prev_alloc[c.id] = c.getHostID()
         decision = []
-        for cid in prev_alloc:
-            one_hot = result[cid, -self.hosts:].tolist()
-            new_host = one_hot.index(max(one_hot))
+        for cid, hid in original_decision:
+            new_host = result[cid] if cid in result else hid
             if prev_alloc[cid] != new_host: decision.append((cid, new_host))
         return decision
 
