@@ -44,21 +44,15 @@ from scheduler.GOBI2 import GOBI2Scheduler
 from scheduler.DRL import DRLScheduler
 from scheduler.DQL import DQLScheduler
 from scheduler.POND import PONDScheduler
-from scheduler.SOGOBI import SOGOBIScheduler
-from scheduler.SOGOBI2 import SOGOBI2Scheduler
-from scheduler.HGOBI import HGOBIScheduler
-from scheduler.HGOBI2 import HGOBI2Scheduler
-from scheduler.HSOGOBI import HSOGOBIScheduler
-from scheduler.HSOGOBI2 import HSOGOBI2Scheduler
 
 # Recovery imports
 from recovery.Recovery import Recovery
 from recovery.DRAGON import DRAGONRecovery
-from recovery.TopoMAD import TopoMADRecovery
-from recovery.PCFT import PCFTRecovery
-from recovery.AWGG import AWGGRecovery
-from recovery.DFTM import DFTMRecovery
-from recovery.ECLB import ECLBRecovery
+from recovery.PBFM import PBFMRecovery
+from recovery.FDMR import FDMRRecovery
+from recovery.TBAFT import TBAFTRecovery
+from recovery.Medusa import MedusaRecovery
+from recovery.IoTEF import IoTEFRecovery
 
 # Auxiliary imports
 from stats.Stats import *
@@ -116,7 +110,7 @@ def initalizeEnvironment(environment, logger):
 	
 	# Initialize recovery
 	''' Can be Recovery, DeepFTRecovery, PCFTRecovery, TopoMADRecovery, DFTMRecovery, ECLBRecovery, AWGGRecovery '''
-	recovery = DRAGONRecovery(HOSTS, environment)
+	recovery = IoTEFRecovery(HOSTS, environment)
 
 	# Initialize Environment
 	hostlist = datacenter.generateHosts()

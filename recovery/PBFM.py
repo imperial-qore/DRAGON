@@ -1,7 +1,7 @@
 import numpy as np
 from .Recovery import *
 
-class ECLBRecovery(Recovery):
+class PBFMRecovery(Recovery):
     def __init__(self, hosts, env, training = False):
         super().__init__()
         self.hosts = hosts
