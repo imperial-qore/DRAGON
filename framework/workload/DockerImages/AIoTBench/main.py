@@ -20,7 +20,7 @@ transform = transforms.Compose([            #[1]
 
 ## Allowed model names
 allowed_models = ['resnet18', 'resnet34', 'squeezenet1_0', 'mobilenet_v2', 'mnasnet1_0', 'googlenet', 'resnext50_32x4d']
-multiplier = [2, 1, 4, 2, 1, 2, 3, 1]
+multiplier = [2, 1, 4, 2, 1, 3, 1]
 multiplier = dict(zip(allowed_models, multiplier))
 
 ## Input model

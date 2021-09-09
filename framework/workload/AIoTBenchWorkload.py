@@ -15,7 +15,7 @@ class AIoTW(Workload):
         workloadlist = []
         containers = []
         applications = ['resnet18', 'resnet34', 'squeezenet1_0', 'mobilenet_v2', 'mnasnet1_0', 'googlenet', 'resnext50_32x4d']
-        multiplier = np.array([2, 1, 4, 2, 1, 2, 3, 1])
+        multiplier = np.array([2, 1, 4, 2, 1, 3, 1])
         weights = 1 - (multiplier / np.sum(multiplier))
         for i in range(max(1,int(gauss(self.num_workloads, self.std_dev)))):
             CreationID = self.creation_id
