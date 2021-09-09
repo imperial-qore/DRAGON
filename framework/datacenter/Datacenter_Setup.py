@@ -40,7 +40,6 @@ def setupVLANEnvironment(cfg, mode):
         MAIN_DIR = os.getcwd().replace('\\', '/').replace('C:', '/mnt/c')
         password = getpass(color.BOLD+'Please enter linux password:'+color.ENDC)
         run_cmd_pwd("rm /etc/ansible/hosts", password)
-        run_cmd_pwd("chmod 400 framework/install_scripts/ssh_keys/id_rsa", password)
         run_cmd_pwd("cp framework/install_scripts/ssh_keys/id_rsa ~/id_rsa", password)
         run_cmd_pwd("cp framework/install_scripts/ssh_keys/id_rsa.pub ~/id_rsa.pub", password)
         with open("framework/config/hosts", "w") as f:
