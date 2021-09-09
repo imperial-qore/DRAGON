@@ -23,7 +23,7 @@ def run(cmd, shell=True):
 print(f'{HEADER}Create Azure VM{ENDC}')
 for i, size in enumerate(vmlist):
   name = f'vm{i+1}'
-  run(f'az vm create --resource-group vm1_group --name {name} --size {size} --image UbuntuLTS --ssh-key-values id_rsa.pub --admin-username ansible')
+  run(f'az vm create --resource-group COSCO --name {name} --size {size} --image UbuntuLTS --ssh-key-values id_rsa.pub --admin-username ansible')
 
 # #################
 
@@ -35,12 +35,12 @@ sleep(60)
 print(f'{HEADER}Open port 8081{ENDC}')
 for i, size in enumerate(vmlist):
   name = f'vm{i+1}'
-  run(f'az vm open-port --resource-group vm1_group --name {name} --port 8081')
+  run(f'az vm open-port --resource-group COSCO --name {name} --port 8081')
 
 #################
 
 print(f'{HEADER}Install new kernel{ENDC}')
 for i, size in enumerate(vmlist):
   name = f'vm{i+1}'
-  cmd = f"az vm run-command invoke -g vm1_group -n {name} --command-id RunShellScript --scripts 'sudo apt install -y -f linux-image-4.15.0-1009-azure linux-tools-4.15.0-1009-azure linux-cloud-tools-4.15.0-1009-azure linux-headers-4.15.0-1009-azure linux-modules-4.15.0-1009-azure linux-modules-extra-4.15.0-1009-azure'"
+  cmd = f"az vm run-command invoke -g COSCO -n {name} --command-id RunShellScript --scripts 'sudo apt install -y -f linux-image-4.15.0-1009-azure linux-tools-4.15.0-1009-azure linux-cloud-tools-4.15.0-1009-azure linux-headers-4.15.0-1009-azure linux-modules-4.15.0-1009-azure linux-modules-extra-4.15.0-1009-azure'"
   run(cmd)

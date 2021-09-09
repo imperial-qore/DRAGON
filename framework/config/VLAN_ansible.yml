@@ -229,15 +229,7 @@
       - sudo systemctl stop systemd-timesyncd
       - sudo systemctl disable systemd-timesyncd
 
-  - name: pull yolo
+  - name: pull AIoTBench
     docker_image:
-      name: shreshthtuli/yolo
-  
-  - name: pull pocketsphinx
-    docker_image:
-      name: shreshthtuli/pocketsphinx
-  
-  - name: pull aeneas
-    docker_image:
-      name: shreshthtuli/aeneas
+      name: shreshthtuli/aiotbench
 
