@@ -70,7 +70,7 @@ opts, args = parser.parse_args()
 
 # Global constants
 NUM_SIM_STEPS = 100
-HOSTS = 16 if opts.env == '' else 2
+HOSTS = 16 if opts.env == '' else 16
 CONTAINERS = HOSTS
 TOTAL_POWER = 1000
 ROUTER_BW = 10000
@@ -106,11 +106,11 @@ def initalizeEnvironment(environment, logger):
 	
 	# Initialize scheduler
 	''' Can be LRMMTR, RF, RL, RM, Random, RLRMMTR, TMCR, TMMR, TMMTR, GA, GOBI (arg = 'energy_latency_'+str(HOSTS)) '''
-	scheduler = RandomScheduler()
+	scheduler = GOBIScheduler('energy_latency_'+str(HOSTS))
 	
 	# Initialize recovery
 	''' Can be Recovery, DeepFTRecovery, PCFTRecovery, TopoMADRecovery, DFTMRecovery, ECLBRecovery, AWGGRecovery '''
-	recovery = IoTEFRecovery(HOSTS, environment)
+	recovery = DRAGONRecovery(HOSTS, environment)
 
 	# Initialize Environment
 	hostlist = datacenter.generateHosts()

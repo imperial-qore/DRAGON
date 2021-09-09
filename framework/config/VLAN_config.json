@@ -6,14 +6,84 @@
 		"uname" : "ansible",
 		"servers" : [
 			{
-				"ip" : "51.11.190.192",
+				"ip" : "52.170.133.187",
 				"cpu" : 2,
 				"powermodel": "PMRaspberryPi4B"
 			},
 			{
-				"ip" : "52.255.157.37",
+				"ip" : "52.186.29.71",
 				"cpu" : 2,
 				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "52.186.26.129",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "157.56.182.165",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "52.170.142.49",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "40.114.26.134",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "40.121.38.90",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "40.112.50.35",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B"
+			},
+			{
+				"ip" : "13.68.231.43",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "13.68.236.198",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "13.90.117.182",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "13.90.119.223",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "40.114.33.235",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "40.117.39.28",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "40.117.82.226",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
+			},
+			{
+				"ip" : "40.121.35.213",
+				"cpu" : 2,
+				"powermodel": "PMRaspberryPi4B8G"
 			}
 		]
 	}

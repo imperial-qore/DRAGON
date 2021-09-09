@@ -42,5 +42,5 @@ for i, size in enumerate(vmlist):
 print(f'{HEADER}Install new kernel{ENDC}')
 for i, size in enumerate(vmlist):
   name = f'vm{i+1}'
-  cmd = f"az vm run-command invoke -g COSCO -n {name} --command-id RunShellScript --scripts 'sudo apt install -y -f linux-image-4.15.0-1009-azure linux-tools-4.15.0-1009-azure linux-cloud-tools-4.15.0-1009-azure linux-headers-4.15.0-1009-azure linux-modules-4.15.0-1009-azure linux-modules-extra-4.15.0-1009-azure'"
+  cmd = ['az', 'vm', 'run-command', 'invoke', '-g', 'COSCO', '-n', name, '--command-id', 'RunShellScript', '--scripts', 'sudo apt install -y -f linux-image-4.15.0-1009-azure linux-tools-4.15.0-1009-azure linux-cloud-tools-4.15.0-1009-azure linux-headers-4.15.0-1009-azure linux-modules-4.15.0-1009-azure linux-modules-extra-4.15.0-1009-azure']
   run(cmd)
