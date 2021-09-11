@@ -27,7 +27,7 @@ plt.rcParams["text.usetex"] = True
 size = (2.9, 2.5)
 env = argv[1]
 option = 0
-sla_baseline = 'GOBI'
+sla_baseline = 'TBAFT'
 rot = 25
 
 def fairness(l):
@@ -64,10 +64,10 @@ def mean_confidence_interval(data, confidence=0.90):
 PATH = 'all_datasets/' + env + '/'
 SAVE_PATH = 'results/' + env + '/'
 
-Models = ['DeepFT', 'TopoMAD', 'AWGG', 'PCFT', 'ECLB', 'DFTM', 'GOBI'] 
+Models = ['DRAGON', 'TBAFT'] 
 xLabel = 'Execution Time (minutes)'
 Colors = ['red', 'blue', 'green', 'orange', 'magenta', 'pink', 'cyan', 'maroon', 'grey', 'purple', 'navy']
-apps = ['yolo', 'pocketsphinx', 'aeneas']
+apps = ['resnet18', 'resnet34', 'squeezenet1_0', 'mobilenet_v2', 'mnasnet1_0', 'googlenet', 'resnext50_32x4d']
 
 yLabelsStatic = ['Total Energy (Kilowatt-hr)', 'Average Energy (Kilowatt-hr)', 'Interval Energy (Kilowatt-hr)', 'Average Interval Energy (Kilowatt-hr)',\
 	'Number of completed tasks', 'Number of completed tasks per interval', 'Average Response Time (seconds)', 'Total Response Time (seconds)',\
@@ -111,7 +111,7 @@ if env == 'framework':
 	r = all_stats[sla_baseline].allcontainerinfo[-1]
 	start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 	for app in apps:
-		response_times = np.fmax(0, end - start)[application == 'shreshthtuli/'+app]
+		response_times = np.fmax(0, end - start)[application == app]
 		response_times.sort()
 		percentile = 0.9 if 'GOBI' in sla_baseline else 0.95
 		sla[app] = response_times[int(percentile*len(response_times))]
@@ -158,8 +158,8 @@ for ylabel in yLabelsStatic:
 			application = np.array(r)
 			total = []
 			for app in apps:
-				total.append(len(application[application == 'shreshthtuli/'+app]))
-			Data[ylabel][model], CI[ylabel][model] = total, [0]*3
+				total.append(len(application[application == app]))
+			Data[ylabel][model], CI[ylabel][model] = total, [0]*len(apps)
 		if ylabel == 'Number of completed tasks per interval':
 			d = np.array([i['numdestroyed'] for i in stats.metrics]) if stats else np.array([0])
 			Data[ylabel][model], CI[ylabel][model] = np.mean(d), mean_confidence_interval(d)
@@ -177,7 +177,7 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 			response_times, errors = [], []
 			for app in apps:
-				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == 'shreshthtuli/'+app] *300
+				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == app] *300
 				response_times.append(np.mean(response_time))
 				er = mean_confidence_interval(response_time)
 				errors.append(0 if 'array' in str(type(er)) else er)
@@ -193,10 +193,10 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 			response_times = []
 			for app in apps:
-				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == 'shreshthtuli/'+app] *300
+				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == app] *300
 				er = 1/(np.mean(response_time)-scipy.stats.hmean(response_time))
 				response_times.append(0 if 'array' in str(type(er)) else er)
-			Data[ylabel][model], CI[ylabel][model] = response_times, [0]*3
+			Data[ylabel][model], CI[ylabel][model] = response_times, [0]*len(apps)
 		if ylabel == 'Total Response Time (seconds)':
 			d = np.array([max(0, i['avgresponsetime']) for i in stats.metrics]) if stats else np.array([0.])
 			d2 = np.array([i['numdestroyed'] for i in stats.metrics]) if stats else np.array([1])
@@ -206,7 +206,7 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 			violations, total = 0, 0
 			for app in apps:
-				response_times = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == 'shreshthtuli/'+app]
+				response_times = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == app]
 				violations += len(response_times[response_times > sla[app]])
 				total += len(response_times)
 			Data[ylabel][model], CI[ylabel][model] = violations / (total+0.01), 0
@@ -225,9 +225,9 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 			violations = []
 			for app in apps:
-				response_times = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == 'shreshthtuli/'+app]
+				response_times = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == app]
 				violations.append(len(response_times[response_times > sla[app]])/(len(response_times)+0.001))
-			Data[ylabel][model], CI[ylabel][model] = violations, [0]*3
+			Data[ylabel][model], CI[ylabel][model] = violations, [0]*len(apps)
 		# Auxilliary metrics
 		if ylabel == 'Average Migration Time (seconds)':
 			d = np.array([i['avgmigrationtime'] for i in stats.metrics]) if stats else np.array([0])
@@ -257,7 +257,7 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['create']), np.array(r['start']), np.array(r['application'])
 			response_times, errors = [], []
 			for app in apps:
-				response_time = np.fmax(0, end - start - 1)[application == 'shreshthtuli/'+app]
+				response_time = np.fmax(0, end - start - 1)[application == app]
 				response_times.append(np.mean(response_time))
 				er = mean_confidence_interval(response_time)
 				errors.append(0 if 'array' in str(type(er)) else er)
@@ -325,10 +325,10 @@ for ylabel in yLabelsStatic:
 	if 'Wait' in ylabel: plt.gca().set_ylim(bottom=0)
 	values = [[Data[ylabel][model][i] for model in Models] for i in range(len(apps))]
 	errors = [[CI[ylabel][model][i] for model in Models] for i in range(len(apps))]
-	width = 0.25
+	width = 0.1
 	x = np.arange(len(values[0]))
 	for i in range(len(apps)):
-		p1 = plt.bar( x+(i-1)*width, values[i], width, align='center', yerr=errors[i], capsize=2, color=Colors[i], label=apps[i], linewidth=1, edgecolor='k')
+		p1 = plt.bar( x+(i-1)*width, values[i], width, align='center', yerr=errors[i], capsize=2, color=Colors[i], label=apps[i].replace('_', '\_'), linewidth=1, edgecolor='k')
 	plt.legend()
 	plt.xticks(range(len(values[i])), Models, rotation=rot)
 	plt.savefig(SAVE_PATH+'Bar-'+ylabel.replace(' ', '_')+".pdf")
@@ -378,7 +378,7 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['start']), np.array(r['destroy']), np.array(r['application'])
 			response_times, errors = [], []
 			for app in apps:
-				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == 'shreshthtuli/'+app] *300
+				response_time = np.fmax(0, end[end!=-1] - start[end!=-1])[application[end!=-1] == app] *300
 				response_times.append(response_time)
 				er = mean_confidence_interval(response_time)
 				errors.append(0 if 'array' in str(type(er)) else er)
@@ -405,7 +405,7 @@ for ylabel in yLabelsStatic:
 			start, end, application = np.array(r['create']), np.array(r['start']), np.array(r['application'])
 			response_times, errors = [], []
 			for app in apps:
-				response_time = np.fmax(0, end - start - 1)[application == 'shreshthtuli/'+app]
+				response_time = np.fmax(0, end - start - 1)[application == app]
 				response_times.append(response_time)
 				er = mean_confidence_interval(response_time)
 				errors.append(0 if 'array' in str(type(er)) else er)
@@ -454,14 +454,14 @@ for ylabel in yLabelsStatic:
 	if 'Wait' in ylabel: plt.gca().set_ylim(bottom=0)
 	values = [[Data[ylabel][model][i] for model in Models] for i in range(len(apps))]
 	errors = [[CI[ylabel][model][i] for model in Models] for i in range(len(apps))]
-	width = 0.25
+	width = 0.05
 	x = np.arange(len(values[0]))
 	for i in range(len(apps)):
 		p1 = plt.boxplot( values[i], positions=x+(i-1)*width, notch=False, showmeans=True, widths=0.25, 
 			meanprops=dict(marker='.', markeredgecolor='black', markerfacecolor='black'), showfliers=False)
 		for param in ['boxes', 'whiskers', 'caps', 'medians']:
 			plt.setp(p1[param], color=Colors[i])
-		plt.plot([], '-', c=Colors[i], label=apps[i])
+		plt.plot([], '-', c=Colors[i], label=apps[i].replace('_', '\_'))
 	plt.legend()
 	plt.xticks(range(len(values[i])), Models, rotation=rot)
 	plt.savefig(SAVE_PATH+'Box-'+ylabel.replace(' ', '_')+".pdf")
