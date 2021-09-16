@@ -48,6 +48,7 @@ from scheduler.POND import PONDScheduler
 # Recovery imports
 from recovery.Recovery import Recovery
 from recovery.DRAGON import DRAGONRecovery
+from recovery.DRAGON2 import DRAGON2Recovery
 from recovery.PBFM import PBFMRecovery
 from recovery.FDMR import FDMRRecovery
 from recovery.TBAFT import TBAFTRecovery
@@ -109,8 +110,8 @@ def initalizeEnvironment(environment, logger):
 	scheduler = GOBIScheduler('energy_latency_'+str(HOSTS))
 	
 	# Initialize recovery
-	''' Can be Recovery, DeepFTRecovery, PCFTRecovery, TopoMADRecovery, DFTMRecovery, ECLBRecovery, AWGGRecovery '''
-	recovery = MedusaRecovery(HOSTS, environment)
+	''' Can be Recovery, DRAGONRecovery, PBFMRecovery, FDMRRecovery, TBAFTRecovery, IoTEFRecovery '''
+	recovery = DRAGON2Recovery(HOSTS, environment)
 
 	# Initialize Environment
 	hostlist = datacenter.generateHosts()
