@@ -28,6 +28,9 @@ the QoS of no migration. So even if such a thing happens, we ignore cycles in th
 
 DRAGON+: Now instead of checking the fitness of only the next state, we find the decision using DRAGON, next time-series window using GON to give us the next to next state. We continue this for say 5-10 timesteps and take a discounted cummulative fitness score. 
 
+
+To speed up the scheduling time compared to trasditional GON, (1) we use topology based attention, (2) we use second-order Adahessian optimization and (3) we start from W_t torconstruct W_{t+1} instead of a random noise sample.
+
 ## Surrogate Model
 
 Takes scheduling decision and time-series input and creates a reconstruction. 
