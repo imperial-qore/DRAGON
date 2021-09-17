@@ -64,7 +64,7 @@ def mean_confidence_interval(data, confidence=0.90):
 PATH = 'all_datasets/' + env + '/'
 SAVE_PATH = 'results/' + env + '/'
 
-Models = ['DRAGON', 'TBAFT'] 
+Models = ['DRAGON2', 'DRAGON', 'TBAFT', 'IoTEF', 'PBFM', 'FDMR', 'Medusa'] 
 xLabel = 'Execution Time (minutes)'
 Colors = ['red', 'blue', 'green', 'orange', 'magenta', 'pink', 'cyan', 'maroon', 'grey', 'purple', 'navy']
 apps = ['resnet18', 'resnet34', 'squeezenet1_0', 'mobilenet_v2', 'mnasnet1_0', 'googlenet', 'resnext50_32x4d']
