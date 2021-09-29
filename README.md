@@ -29,11 +29,20 @@ the QoS of no migration. So even if such a thing happens, we ignore cycles in th
 DRAGON+: Now instead of checking the fitness of only the next state, we find the decision using DRAGON, next time-series window using GON to give us the next to next state. We continue this for say 5-10 timesteps and take a discounted cummulative fitness score. 
 
 
-To speed up the scheduling time compared to trasditional GON, (1) we use topology based attention, (2) we use second-order Adahessian optimization and (3) we start from W_t torconstruct W_{t+1} instead of a random noise sample.
+To speed up the scheduling time compared to trasditional GON, (1) we use topology based attention, (2) we use second-order Adahessian optimization and (3) we start from W_t to construct W_{t+1} instead of a random noise sample.
 
-## Surrogate Model
+## Figures
 
-Takes scheduling decision and time-series input and creates a reconstruction. 
+0. Motivational example (without FT {memory application mid, performance low}, with memory intensive FT {memory high application low, performance low}, with memory efficient FT {memory low application mid, performance hi}). Plot mem app + model, swap % (dot), response time. Change RAM usage using ulimit and cgcreate to limit memory and swap usage, Swappiness = 0.
+1. System Model (three different use cases)
+2. GON model diagram (inputs: scheduling decision, charcteristics window; feats: topology GTN based attention)
+3. Visualization of Attention (with topology and CPU utilization)
+4. FTSAD dataset statistics (table)
+5. Loss curves on FTSAD dataset. (loss, detection/diagnosis accuracy)
+6. Comparison (detection/diagnosis accuracy table, memory consumption and training-inference times bar graphs)
+7. QoS comparison (response time, energy, sla, migration counts, scheduling time) for each use case.
+8. Ablation Analysis (w/o Topology attention (accuracy, memory, time slightly), w/o adahessian (time), w/o starting point (time))
+9. Sensitivity Analysis (Detection/diagnosis/memory/scheduling time with window size, learning rate)
 
 ## License
 
