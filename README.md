@@ -37,12 +37,12 @@ To speed up the scheduling time compared to trasditional GON, (1) we use topolog
 1. System Model (three different use cases)
 2. GON model diagram (inputs: scheduling decision, charcteristics window; feats: topology GTN based attention)
 3. Visualization of Attention (with topology and CPU utilization)
-4. FTSAD dataset statistics (table)
-5. Loss curves on FTSAD dataset. (loss, detection/diagnosis accuracy)
-6. Comparison (detection/diagnosis accuracy table, memory consumption and training-inference times bar graphs)
-7. QoS comparison (response time, energy, sla, migration counts, scheduling time) for each use case.
-8. Ablation Analysis (w/o Topology attention (accuracy, memory, time slightly), w/o adahessian (time), w/o starting point (time))
-9. Sensitivity Analysis (Detection/diagnosis/memory/scheduling time with window size, learning rate)
+4. @FTSAD dataset statistics (table)
+5. @Loss curves on FTSAD dataset. (loss, detection/diagnosis accuracy). F1 and F1/GB with memory for FTSAD datasets.
+6. @Comparison (detection/diagnosis accuracy table)
+7. @QoS comparison (response time, energy, sla, migration counts, scheduling time) for each use case.
+8. @Ablation Analysis (w/o Topology attention (accuracy, memory, time slightly), w/o adahessian (time), w/o starting point (time))
+9. @Sensitivity Analysis (Detection/diagnosis/memory/scheduling time with window size, learning rate)
 
 ## License
 
