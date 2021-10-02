@@ -54,6 +54,8 @@ from recovery.FDMR import FDMRRecovery
 from recovery.TBAFT import TBAFTRecovery
 from recovery.Medusa import MedusaRecovery
 from recovery.IoTEF import IoTEFRecovery
+from recovery.TopoMAD import TopoMADRecovery
+from recovery.StepGAN import StepGANRecovery
 
 # Auxiliary imports
 from stats.Stats import *
@@ -111,7 +113,7 @@ def initalizeEnvironment(environment, logger):
 	
 	# Initialize recovery
 	''' Can be Recovery, DRAGONRecovery, PBFMRecovery, FDMRRecovery, TBAFTRecovery, IoTEFRecovery '''
-	recovery = DRAGON2Recovery(HOSTS, environment)
+	recovery = DRAGONRecovery(HOSTS, environment)
 
 	# Initialize Environment
 	hostlist = datacenter.generateHosts()
