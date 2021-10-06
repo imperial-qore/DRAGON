@@ -14,13 +14,16 @@ jobs:
 
     steps:
         - uses: actions/checkout@v2
-        -
-          name: Set up Docker Buildx
-          id: buildx
-          uses: crazy-max/ghaction-docker-buildx@v3
+        - name: Set up QEMU
+          id: qemu
+          uses: docker/setup-qemu-action@v1
           with:
-            buildx-version: latest
-            qemu-version: latest
+            image: tonistiigi/binfmt:latest
+            platforms: all
+
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@v1
         -
           name: Available platforms
           run: echo ${{ steps.buildx.outputs.platforms }}
