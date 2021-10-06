@@ -14,12 +14,17 @@ jobs:
 
     steps:
         - uses: actions/checkout@v1
+        - name: install buildx
+          id: buildx
+          uses: crazy-max/ghaction-docker-buildx@v1
+          with:
+            version: latest
         - name: Login to DockerHub Registry
           run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         - name: Get the version
           id: vars
           run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
         - name: Build the AIoTBench image
-          run: docker build -t shreshthtuli/aiotbench framework/workload/DockerImages/AIoTBench/
+          run: docker buildx build -t shreshthtuli/aiotbench -p linux/amd64,linux/arm/v7, linux/arm/v8,linux/arm64 framework/workload/DockerImages/AIoTBench/
         - name: Push the AIoTBench image
           run: docker push shreshthtuli/aiotbench
