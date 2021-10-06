@@ -6,28 +6,20 @@ on:
     paths:
       - 'framework/workload/DockerImages/AIoTBench/Dockerfile'
       - 'framework/workload/DockerImages/AIoTBench/*.py'
-      - '.github/workflows/main.yml'
+      - '.github/workflows/*.yml'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
-        - uses: actions/checkout@v2
-        - name: install buildx
-          id: buildx
-          uses: crazy-max/ghaction-docker-buildx@v1
-          with:
-            version: latest
-        -
-          name: Available platforms
-          run: echo ${{ steps.buildx.outputs.platforms }}
+        - uses: actions/checkout@v1
         - name: Login to DockerHub Registry
           run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         - name: Get the version
           id: vars
           run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
         - name: Build the AIoTBench image
-          run: docker buildx build -t shreshthtuli/aiotbench --platform linux/amd64,linux/arm64/v8 framework/workload/DockerImages/AIoTBench/
+          run: docker build -t shreshthtuli/aiotbench framework/workload/DockerImages/AIoTBench/
         - name: Push the AIoTBench image
           run: docker push shreshthtuli/aiotbench
