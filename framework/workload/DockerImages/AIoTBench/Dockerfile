@@ -1,4 +1,5 @@
-FROM ubuntu:18.04
+ARG ARCH=
+FROM ${ARCH}ubuntu:18.04
 
 WORKDIR /root
 
