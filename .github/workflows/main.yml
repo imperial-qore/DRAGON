@@ -21,6 +21,9 @@ jobs:
           with:
             buildx-version: latest
             qemu-version: latest
+        -
+          name: Available platforms
+          run: echo ${{ steps.buildx.outputs.platforms }}
         - name: Login to DockerHub Registry
           run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         - name: Get the version
