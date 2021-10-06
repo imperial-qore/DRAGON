@@ -6,7 +6,7 @@ on:
     paths:
       - 'framework/workload/DockerImages/AIoTBench/Dockerfile'
       - 'framework/workload/DockerImages/AIoTBench/*.py'
-      - '.github/workflows/*.yml'
+      - '.github/workflows/main.yml'
 
 jobs:
   build:
