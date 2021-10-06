@@ -25,6 +25,6 @@ jobs:
           id: vars
           run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
         - name: Build the AIoTBench image
-          run: docker buildx build -t shreshthtuli/aiotbench --platform linux/amd64,linux/arm/v7,linux/arm/v8,linux/arm64 framework/workload/DockerImages/AIoTBench/
+          run: docker buildx build -t shreshthtuli/aiotbench --platform linux/amd64,linux/arm/v8 framework/workload/DockerImages/AIoTBench/
         - name: Push the AIoTBench image
           run: docker push shreshthtuli/aiotbench
